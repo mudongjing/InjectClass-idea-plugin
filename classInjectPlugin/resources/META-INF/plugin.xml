@@ -1,0 +1,38 @@
+<idea-plugin>
+  <id>io.github.mudongjing.InjectClass.plugin.id</id>
+  <name>InjectClass</name>
+  <version>1.0</version>
+  <vendor email="wyjcod@yahoo.com" url="https://github.com/mudongjing/mudongjing">mudongjing</vendor>
+
+  <description><![CDATA[
+      通过注解@InjectClass(path="包名")为指定的类添加指定包下所有的类作为字段，并附带关于这些字段的setter/getter方法。<br>
+      <em>不支持内部类。</br>如果当前类包含已有类的字段会导致代码错误。</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes  here.<br>
+      <em>most HTML t ags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="193.0"/>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.lang</depends>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.java</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+    <postStartupActivity implementation="xyz.wcd.activity.ClassInjectActivity"/>
+    src/main/java/
+  </extensions>
+
+  <actions>
+  </actions>
+  <projectListeners>
+    <listener class="xyz.wcd.listenser.PsiFileListeners" topic="com.intellij.psi.PsiTreeChangeListener"/>
+  </projectListeners>
+</idea-plugin>
