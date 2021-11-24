@@ -1,0 +1,1 @@
+# InjectClass-idea-plugin
