@@ -1,11 +1,16 @@
 package xyz.wcd.utils;
 
+import com.intellij.lang.LighterAST;
 import com.intellij.psi.*;
+import com.intellij.psi.impl.light.LightFieldBuilder;
+import com.intellij.psi.impl.light.LightModifierList;
+import com.intellij.psi.util.PsiUtil;
 import org.jetbrains.annotations.NotNull;
 import xyz.wcd.psi.InjectLightFieldBuilder;
 import xyz.wcd.psi.InjectLightMethodBuilder;
 
 public class CreateMethodOrFieldUtil {
+
     public static PsiMethod createInjectSetterMethod(@NotNull PsiField psiField, @NotNull PsiClass psiClass){
         String setterInjectMethod = StringNameUtil.createSetterInjectMethod(psiField.getName());
         InjectLightMethodBuilder injectLightMethodBuilder = new InjectLightMethodBuilder(psiField.getManager(), setterInjectMethod)
@@ -31,12 +36,25 @@ public class CreateMethodOrFieldUtil {
         return injectLightMethodBuilder;
     }
 
-    public static PsiField createInjectField(PsiClass psiClass){
-        String type=psiClass.getName();
+    public static LightFieldBuilder createInjectField(PsiClass psiClass,PsiClass targetClass){
+        PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(psiClass.getProject());
+//        String type=psiClass.getName();
+        PsiClassType typeClass = elementFactory.createType(psiClass);
         String name=psiClass.getName().substring(0,1).toLowerCase()+psiClass.getName().substring(1);
-        InjectLightFieldBuilder injectLightFieldBuilder = new InjectLightFieldBuilder(name, type, psiClass.getNavigationElement());
+//        PsiField field = elementFactory.createField(name, elementFactory.createType(psiClass));
+//        field.getModifierList().setModifierProperty(PsiModifier.PRIVATE, true);
+        InjectLightFieldBuilder injectLightFieldBuilder = new InjectLightFieldBuilder(name,typeClass,psiClass.getManager());
         injectLightFieldBuilder.setModifiers(PsiModifier.PRIVATE);
         return injectLightFieldBuilder;
+//        PsiType typeFromText = elementFactory.createTypeFromText(targetClass.getQualifiedName(), targetClass);
+//        System.out.println("1");
+//        LightFieldBuilder lightFieldBuilder = new LightFieldBuilder(psiClass.getManager(), name, typeFromText);
+//        System.out.println("2");
+//        LightModifierList modifierList = (LightModifierList) lightFieldBuilder.getModifierList();
+//        System.out.println("3");
+//        modifierList.addModifier(PsiModifier.PRIVATE);
+//        System.out.println("4");
+//        return lightFieldBuilder;
     }
     public static PsiImportStatement createImport(PsiClass psiClass){
         PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(psiClass.getProject());

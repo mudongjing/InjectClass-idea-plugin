@@ -27,12 +27,10 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <postStartupActivity implementation="xyz.wcd.activity.ClassInjectActivity"/>
-    src/main/java/
+    <lang.psiAugmentProvider implementation="xyz.wcd.argument.AugmentProviderInject"/>
+    <lang.structureViewExtension implementation="xyz.wcd.structure.ClassInjectStructureViewExtension"/>
   </extensions>
 
   <actions>
   </actions>
-  <projectListeners>
-    <listener class="xyz.wcd.listenser.PsiFileListeners" topic="com.intellij.psi.PsiTreeChangeListener"/>
-  </projectListeners>
 </idea-plugin>
